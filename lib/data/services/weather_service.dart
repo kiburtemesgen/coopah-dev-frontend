@@ -19,7 +19,6 @@ class WeatherService {
 
       // Check if response is successful
       if (response.statusCode == 200) {
-        debugPrint('the result from service: ${response.data},', wrapWidth: 1000);
         final weatherResponse = WeatherResponse.fromJson(response.data);
 
         return Right(weatherResponse);

@@ -19,6 +19,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     on<SwitchTemperatureUnit>(_onSwitchTemperatureUnit);
   }
 
+  /// Emits a loading state, calls the [weatherRepository] to fetch weather data,
+  /// and then emits either a success state with the fetched data or an error state
+  /// if the fetch fails.
   Future<void> _onGetWeather(
       GetWeather event, Emitter<WeatherState> emit) async {
     emit(state.copyWith(isLoading: true, error: null));
@@ -27,11 +30,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     response.fold((error) {
       emit(state.copyWith(isLoading: false, error: error));
     }, (result) {
-      print('the result from getWeather: ${result}');
       emit(state.copyWith(isLoading: false, weatherResponse: result));
     });
   }
 
+  /// Toggles the current temperature unit in the state between Celsius and Fahrenheit.
   void _onSwitchTemperatureUnit(
       SwitchTemperatureUnit event, Emitter<WeatherState> emit) {
     var unit = state.unit;
